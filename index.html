@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中央の文字</title>
+    
+    <!-- Adobe Fonts の読み込み -->
+   <script>
+  (function(d) {
+    var config = {
+      kitId: 'edk7cro',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+
+    <style>
+        /* 画面全体を白背景にし、中央に文字を配置 */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            font-family: "source-han-sans-vf", sans-serif; /* 「源ノ角ゴシック」のフォント名を指定 */
+            font-variation-settings: "wght" 250;
+        }
+        .center-text {
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center-text">AAAAA</div>
+</body>
+</html>
