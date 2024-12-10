@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スマホ用ページ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    /* ナビゲーションバー */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+    }
+    .nav-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+    / コンテンツエリア /
+    .content {
+      padding: 0;
+      position: relative;
+      background-color: #87CEEB; / 背景は青 /
+      height: 50vh; / 画面の上半分 /
+    }
+    / 小さいマップのデザイン /
+    .map {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      background-color: #fefefe;
+      border: 2px solid #fff; / 白いライン /
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .map-content {
+      width: 200%; / マップが動くために大きくする /
+      height: 200%;
+      background: linear-gradient(to bottom right, #4caf50, #8bc34a); /* ダミーの背景 */
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <!-- ナビゲーションバー -->
+  <nav>
+    <div class="nav-icon">ニコニコ</div>
+    <div class="nav-icon">☰</div>
+  </nav>
+
+  <!-- コンテンツエリア -->
+  <div class="content">
+    <div class="map">
+      <div class="map-content"></div>
+    </div>
+  </div>
+</body>
+</html>
