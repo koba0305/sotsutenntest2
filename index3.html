@@ -25,7 +25,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            transform-origin: center;
+            transform-origin: 0 0; /* Fix the transform origin */
         }
         .grid-item {
             width: 180px;
@@ -56,21 +56,18 @@
         let offsetY = 0;
         let scale = 1;
 
-        // Adjust map size dynamically
-        function adjustMapSize() {
-            map.style.width = `${container.offsetWidth}px`;
-            map.style.height = `${container.offsetHeight}px`;
-        }
-        window.addEventListener('resize', adjustMapSize);
-        adjustMapSize(); // Initial adjustment
-
         // Function to calculate map boundaries dynamically
         function calculateBounds() {
+            const scaledWidth = map.offsetWidth * scale;
+            const scaledHeight = map.offsetHeight * scale;
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+
             return {
-                minX: Math.min(0, container.offsetWidth - map.offsetWidth * scale),
-                minY: Math.min(0, container.offsetHeight - map.offsetHeight * scale),
-                maxX: Math.max(0, container.offsetWidth - map.offsetWidth * scale),
-                maxY: Math.max(0, container.offsetHeight - map.offsetHeight * scale)
+                minX: Math.min(0, containerWidth - scaledWidth),
+                minY: Math.min(0, containerHeight - scaledHeight),
+                maxX: Math.max(0, containerWidth - scaledWidth),
+                maxY: Math.max(0, containerHeight - scaledHeight)
             };
         }
 
