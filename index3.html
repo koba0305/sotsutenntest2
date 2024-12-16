@@ -10,21 +10,19 @@
             overflow: hidden;
         }
         #map-container {
-            width: 80vw;
-            height: 80vh;
+            width: 100vw;
+            height: 100vh;
             background-color: #0000ff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             overflow: hidden;
         }
         #map {
             width: 1000px;
             height: 1000px;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
             transform-origin: center;
         }
         .grid-item {
@@ -59,10 +57,10 @@
         // Function to calculate map boundaries dynamically
         function calculateBounds() {
             return {
-                minX: Math.min(0, container.offsetWidth - map.offsetWidth * scale),
-                minY: Math.min(0, container.offsetHeight - map.offsetHeight * scale),
-                maxX: Math.max(0, container.offsetWidth - map.offsetWidth * scale),
-                maxY: Math.max(0, container.offsetHeight - map.offsetHeight * scale)
+                minX: container.offsetWidth - map.offsetWidth * scale,
+                minY: container.offsetHeight - map.offsetHeight * scale,
+                maxX: 0,
+                maxY: 0
             };
         }
 
