@@ -9,6 +9,18 @@
             margin: 0;
             overflow: hidden;
         }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+        }
+        .nav-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
         #map-container {
             width: 80vw;
             height: 80vh;
@@ -41,6 +53,10 @@
     </style>
 </head>
 <body>
+    <nav>
+        <div class="nav-icon">(-;</div>
+        <div class="nav-icon">☰</div>
+    </nav>
     <div id="map-container">
         <div id="map"></div>
     </div>
@@ -78,6 +94,9 @@
             offsetY = Math.min(bounds.maxY, Math.max(bounds.minY, offsetY + dy));
             map.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
         }
+
+        // Initialize map position
+        updateMapPosition(0, 0);
 
         // Mouse events for dragging
         map.addEventListener('mousedown', (event) => {
@@ -190,12 +209,4 @@
             gridItem.style.top = `${y}px`;
 
             gridItem.addEventListener('click', () => {
-                document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
-                gridItem.classList.add('active');
-            });
-
-            map.appendChild(gridItem);
-        });
-    </script>
-</body>
-</html>
+                document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'))
