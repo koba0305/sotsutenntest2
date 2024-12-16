@@ -28,8 +28,8 @@
             transform-origin: center;
         }
         .grid-item {
-            width: 190px;
-            height: 190px;
+            width: 180px;
+            height: 180px;
             border: 2px solid #ffffff;
             background-color: transparent;
             box-sizing: border-box;
@@ -59,10 +59,10 @@
         // Function to calculate map boundaries dynamically
         function calculateBounds() {
             return {
-                minX: container.offsetWidth - map.offsetWidth * scale,
-                minY: container.offsetHeight - map.offsetHeight * scale,
-                maxX: 0,
-                maxY: 0
+                minX: Math.min(0, container.offsetWidth - map.offsetWidth * scale),
+                minY: Math.min(0, container.offsetHeight - map.offsetHeight * scale),
+                maxX: Math.max(0, container.offsetWidth - map.offsetWidth * scale),
+                maxY: Math.max(0, container.offsetHeight - map.offsetHeight * scale)
             };
         }
 
@@ -187,8 +187,8 @@
             gridItem.style.top = `${y}px`;
 
             gridItem.addEventListener('click', () => {
-                const isActive = gridItem.classList.toggle('active');
-                gridItem.style.border = isActive ? '2px solid #ffffff' : '2px solid #ffffff';
+                document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
+                gridItem.classList.add('active');
             });
 
             map.appendChild(gridItem);
