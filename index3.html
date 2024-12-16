@@ -28,8 +28,8 @@
             transform-origin: center;
         }
         .grid-item {
-            width: 200px;
-            height: 200px;
+            width: 190px;
+            height: 190px;
             border: 2px solid #ffffff;
             background-color: transparent;
             box-sizing: border-box;
@@ -56,16 +56,19 @@
         let offsetY = 0;
         let scale = 1;
 
-        // Define boundaries
-        const bounds = {
-            minX: 0,
-            minY: 0,
-            maxX: 1000 - container.offsetWidth,
-            maxY: 1000 - container.offsetHeight
-        };
+        // Function to calculate map boundaries dynamically
+        function calculateBounds() {
+            return {
+                minX: container.offsetWidth - map.offsetWidth * scale,
+                minY: container.offsetHeight - map.offsetHeight * scale,
+                maxX: 0,
+                maxY: 0
+            };
+        }
 
         // Function to set the map position within boundaries
         function updateMapPosition(dx, dy) {
+            const bounds = calculateBounds();
             offsetX = Math.min(bounds.maxX, Math.max(bounds.minX, offsetX + dx));
             offsetY = Math.min(bounds.maxY, Math.max(bounds.minY, offsetY + dy));
             map.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
@@ -169,24 +172,27 @@
             isDragging = false;
         });
 
-        // Add 4x4 grid of squares to the map
-        const gridSize = 4;
-        const itemSize = 200;
-        for (let row = 0; row < gridSize; row++) {
-            for (let col = 0; col < gridSize; col++) {
-                const gridItem = document.createElement('div');
-                gridItem.classList.add('grid-item');
-                gridItem.style.left = `${col * itemSize}px`;
-                gridItem.style.top = `${row * itemSize}px`;
+        // Add flexible grid of squares to the map
+        const squares = [
+            { x: 50, y: 50 }, { x: 300, y: 50 }, { x: 550, y: 50 }, { x: 800, y: 50 },
+            { x: 50, y: 300 }, { x: 300, y: 300 }, { x: 550, y: 300 }, { x: 800, y: 300 },
+            { x: 50, y: 550 }, { x: 300, y: 550 }, { x: 550, y: 550 }, { x: 800, y: 550 },
+            { x: 50, y: 800 }, { x: 300, y: 800 }, { x: 550, y: 800 }, { x: 800, y: 800 }
+        ];
 
-                gridItem.addEventListener('click', () => {
-                    const isActive = gridItem.classList.toggle('active');
-                    gridItem.style.border = isActive ? '2px solid #ffffff' : '2px solid #ffffff';
-                });
+        squares.forEach(({ x, y }) => {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item');
+            gridItem.style.left = `${x}px`;
+            gridItem.style.top = `${y}px`;
 
-                map.appendChild(gridItem);
-            }
-        }
+            gridItem.addEventListener('click', () => {
+                const isActive = gridItem.classList.toggle('active');
+                gridItem.style.border = isActive ? '2px solid #ffffff' : '2px solid #ffffff';
+            });
+
+            map.appendChild(gridItem);
+        });
     </script>
 </body>
 </html>
