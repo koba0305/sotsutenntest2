@@ -27,7 +27,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(1);
             cursor: grab;
         }
     </style>
@@ -44,6 +44,25 @@
         let isDragging = false;
         let lastX = 0;
         let lastY = 0;
+        let scale = 1;
+
+        function setMapPosition(deltaX, deltaY) {
+            const rect = map.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            const newLeft = Math.min(
+                Math.max(containerRect.left, rect.left + deltaX),
+                containerRect.right - rect.width
+            );
+
+            const newTop = Math.min(
+                Math.max(containerRect.top, rect.top + deltaY),
+                containerRect.bottom - rect.height
+            );
+
+            map.style.left = `${newLeft - containerRect.left}px`;
+            map.style.top = `${newTop - containerRect.top}px`;
+        }
 
         map.addEventListener('mousedown', (event) => {
             isDragging = true;
@@ -58,21 +77,7 @@
             const deltaX = event.clientX - lastX;
             const deltaY = event.clientY - lastY;
 
-            const mapRect = map.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-
-            const newLeft = Math.min(
-                Math.max(containerRect.left, mapRect.left + deltaX),
-                containerRect.right - mapRect.width
-            );
-
-            const newTop = Math.min(
-                Math.max(containerRect.top, mapRect.top + deltaY),
-                containerRect.bottom - mapRect.height
-            );
-
-            map.style.left = `${newLeft - containerRect.left}px`;
-            map.style.top = `${newTop - containerRect.top}px`;
+            setMapPosition(deltaX, deltaY);
 
             lastX = event.clientX;
             lastY = event.clientY;
@@ -85,15 +90,40 @@
 
         container.addEventListener('wheel', (event) => {
             event.preventDefault();
-            const currentTransform = getComputedStyle(map).transform;
-            const scaleMatch = currentTransform.match(/matrix\(([^,]+),[^,]+,[^,]+,[^,]+,[^,]+,[^,]+\)/);
-            const currentScale = scaleMatch ? parseFloat(scaleMatch[1]) : 1;
-            const scaleFactor = event.deltaY < 0 ? 1.1 : 0.9;
-            const newScale = Math.min(5, Math.max(0.5, currentScale * scaleFactor));
+            const delta = event.deltaY < 0 ? 0.1 : -0.1;
+            scale = Math.min(5, Math.max(0.5, scale + delta));
+            map.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        });
 
-            map.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+        container.addEventListener('touchstart', (event) => {
+            if (event.touches.length === 1) {
+                isDragging = true;
+                lastX = event.touches[0].clientX;
+                lastY = event.touches[0].clientY;
+            }
+        });
+
+        container.addEventListener('touchmove', (event) => {
+            if (!isDragging || event.touches.length !== 1) return;
+
+            const deltaX = event.touches[0].clientX - lastX;
+            const deltaY = event.touches[0].clientY - lastY;
+
+            setMapPosition(deltaX, deltaY);
+
+            lastX = event.touches[0].clientX;
+            lastY = event.touches[0].clientY;
+        });
+
+        container.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        container.addEventListener('gesturechange', (event) => {
+            event.preventDefault();
+            scale = Math.min(5, Math.max(0.5, scale * event.scale));
+            map.style.transform = `translate(-50%, -50%) scale(${scale})`;
         });
     </script>
 </body>
 </html>
-
